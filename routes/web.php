@@ -19,6 +19,7 @@ Route::get('', [DashboardController::class, 'index']);
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SearchController;
 
 Route::resource('tours', 'TourController');
 // Tours routes
@@ -41,8 +42,17 @@ Route::put('/destinations/{destination}', [DestinationController::class, 'update
 Route::delete('/destinations/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
 
 Route::resource('blogs', 'BlogController');
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
+Route::get('autocomplete', [App\Http\Controllers\SearchController::class, 'autocomplete'])->name('autocomplete');
