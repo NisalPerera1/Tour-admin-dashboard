@@ -46,6 +46,71 @@
                             <i class="fa fa-bell"></i> Notifications
                         </a>
                     </li>
+
+<!-- Search Function -->
+<li class="nav-item">
+    <a class="nav-link" data-bs-toggle="modal" data-bs-target="#searchModal">
+        <i class="fa fa-search"></i> Search
+    </a>
+</li>
+<!-- End of Search Function -->
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="searchFormModal" action="{{ route('search') }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search..." name="query" id="searchQueryModal">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </form>
+
+                <!-- Search Results -->
+                <div id="searchResults"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Add the following script after including jQuery -->
+<script>
+    $(document).ready(function () {
+        $('#searchFormModal').on('input', function () {
+            var query = $('#searchQueryModal').val();
+
+            // Use AJAX to fetch search results
+            $.ajax({
+                url: "{{ route('search') }}", // Update with your actual route
+                method: 'GET',
+                data: {query: query},
+                success: function (data) {
+                    // Construct HTML table based on search results
+                    var tableHtml = '<table class="table">';
+                    tableHtml += '<thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>';
+
+                    // Iterate through search results and append rows to the table
+                    $.each(data, function (index, result) {
+                        tableHtml += '<tr><td>' + result.name + '</td><td>' + result.description + '</td></tr>';
+                    });
+
+                    tableHtml += '</tbody></table>';
+
+                    // Update the content of the searchResults div with the table
+                    $('#searchResults').html(tableHtml);
+                }
+            });
+        });
+    });
+</script>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fa fa-user"></i> Login
@@ -65,6 +130,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 
 </html>

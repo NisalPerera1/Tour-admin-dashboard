@@ -10,27 +10,30 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // Show a list of all blogs
-        $blogs = Blog::all();
-        return view('blogs.index', compact('blogs'));    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        public function index()
+        {
+            $blogs = Blog::all();
+    
+            return view('blogs.index', compact('blogs'));
+        }
+    
+        public function create()
+        {
+            return view('blogs.create');
+        }
+    
+        public function store(Request $request)
+        {
+            $request->validate([
+                'name' => 'required|string',
+                'author' => 'required|string',
+                'content' => 'required|string',
+                // Add any other validation rules for your attributes
+            ]);
+    
+            Blog::create($request->all());
+            return response()->json(['message' => 'Blog created successfully']);
+        }
 
     /**
      * Display the specified resource.

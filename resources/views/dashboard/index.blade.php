@@ -59,7 +59,10 @@
             </div>
             </div>
             </div>
-
-
+<br>
+<div>
+  Next Milestones 
+  <img src="../../../app-assets/images/carousel/next.png" alt="nex mil">
+</div>
 
 @endsection
